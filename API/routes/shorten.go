@@ -1,9 +1,15 @@
 package routes
 
 import (
-	"time"
 	"os"
+	"time"
+	"strconv"
 	"github.com/Devisrisamidurai/url-shortener/database"
+	"github.com/Devisrisamidurai/url-shortener/helpers"
+	"github.com/go-redis/redis/v8"
+	"github.com/gofiber/fiber/v2"
+	"github.com/asaskevich/govalidator"
+	"github.com/google/uuid"
 )
 type request struct {
 	URL         string        `json:"url"`
@@ -82,7 +88,7 @@ func ShortenURL(c *fiber.Ctx) error {
 
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-			"error":"Unable to connect to server"
+			"error":"Unable to connect to server",
 		})
 	}
 	resp := response{
@@ -90,7 +96,7 @@ func ShortenURL(c *fiber.Ctx) error {
 		CustomerShort: "",
 		Expiry:   body.Expiry,
 		XRateRemaining:  10,
-		XrateLimitReset: 30
+		XrateLimitReset: 30,
 	}
 	r2.Decr(database.Ctx,c.IP())
 
