@@ -1,7 +1,13 @@
 package main
 
 import (
+	"fmt"
+	"log"
+	"os"
+
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/logger"
+	"github.com/jono/godotenv"
 )
 
 func setupRoutes(app *fiber.App) {

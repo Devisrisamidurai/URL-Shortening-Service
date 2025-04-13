@@ -29,5 +29,4 @@ func ResolveURL(c *fiber.Ctx) error{
 	_ = rInr.Incr(database.Ctx, "counter")
 	return c.Redirect(value,301)
 
-
 }
